@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>MoviePulse | Upcoming Movies & Announcements</title>
     <meta name="description" content="Stay updated with the latest upcoming movies, release dates, ratings, and announcements. MoviePulse - your daily movie pulse.">
+    <meta name="author" content="Cosmos Anim">
     <meta name="theme-color" content="#121212">
     
     <style>
@@ -54,12 +55,16 @@
             margin-bottom: 10px;
         }
         
+        .donation-card p {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+        
         .donation-buttons {
             display: flex;
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            margin-top: 15px;
         }
         
         .donate-btn {
@@ -102,10 +107,16 @@
             margin-top: 10px;
         }
         
+        .creator {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 8px;
+        }
+        
         .last-updated {
             font-size: 0.75rem;
             color: #666;
-            margin-top: 8px;
+            margin-top: 5px;
         }
         
         /* Search */
@@ -349,15 +360,15 @@
 </head>
 <body>
 
-<!-- DONATION SECTION (Voluntary Support Only) -->
+<!-- DONATION SECTION -->
 <div class="donation-section">
     <div class="donation-card">
         <h3>☕ Support MoviePulse</h3>
-        <p>If you enjoy using MoviePulse, consider supporting the development. Your contribution is voluntary and helps keep this site running.</p>
+        <p>If you enjoy using MoviePulse, consider supporting the development. Your contribution is voluntary.</p>
         <div class="donation-buttons">
-            <button class="donate-btn" onclick="alert('Thank you for your support! Please send via MTN MoMo to: 0535747558 (Samuel Ofosu)')">☕ Buy Coffee ($5)</button>
-            <button class="donate-btn" onclick="alert('Thank you for your support! Please send via MTN MoMo to: 0535747558 (Samuel Ofosu)')">🍿 Movie Snack ($10)</button>
-            <button class="donate-btn momo" onclick="alert('MTN MoMo Number: 0535747558 (Samuel Ofosu) - Thank you for your support!')">📱 MTN MoMo</button>
+            <button class="donate-btn" onclick="alert('Thank you! Please send via MTN MoMo to: 0535747558 (Cosmos Anim)')">☕ Buy Coffee ($5)</button>
+            <button class="donate-btn" onclick="alert('Thank you! Please send via MTN MoMo to: 0535747558 (Cosmos Anim)')">🍿 Movie Snack ($10)</button>
+            <button class="donate-btn momo" onclick="alert('MTN MoMo: 0535747558 (Cosmos Anim) - Thank you for your support!')">📱 MTN MoMo</button>
         </div>
     </div>
 </div>
@@ -366,7 +377,8 @@
 <div class="header">
     <h1>🎬 MoviePulse</h1>
     <p>Your daily pulse on upcoming movies</p>
-    <div class="last-updated" id="lastUpdated">Fetching latest movies...</div>
+    <div class="creator">Created by Cosmos Anim</div>
+    <div class="last-updated" id="lastUpdated">Fetching latest movies from TMDB...</div>
 </div>
 
 <!-- SEARCH -->
@@ -393,9 +405,10 @@
 
 <!-- FOOTER -->
 <div class="footer">
-    <p>MoviePulse - Upcoming movie announcements. Data provided by TMDb.</p>
+    <p>MoviePulse - Created by Cosmos Anim</p>
+    <p>Data provided by The Movie Database (TMDB)</p>
+    <p style="font-size: 11px; margin-top: 10px;">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
     <p>© 2026 MoviePulse. All rights reserved.</p>
-    <p style="font-size: 11px; margin-top: 10px;">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
 </div>
 
 <!-- MODAL -->
@@ -417,9 +430,8 @@
 
 <script>
     // ========== TMDB API CONFIGURATION ==========
-    // Get your FREE personal API key from: https://www.themoviedb.org/signup
-    // Then go to Settings → API → Create → Choose "Developer"
-    const TMDB_API_KEY = 2cf46afac9dfe9a90bb2098a2678e817;  // <--- REPLACE WITH YOUR REAL API KEY
+    // API Key for Cosmos Anim
+    const TMDB_API_KEY = '2cf46afac9dfe9a90bb2098a2678e817';
     const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
     const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
     
@@ -431,7 +443,7 @@
         document.getElementById('movieGrid').innerHTML = `
             <div class="loading">
                 <div class="loading-spinner"></div>
-                <p>Loading movies...</p>
+                <p>Loading movies from TMDB...</p>
             </div>
         `;
     }
@@ -440,7 +452,7 @@
         document.getElementById('movieGrid').innerHTML = `
             <div class="error">
                 <p>❌ ${message}</p>
-                <p style="margin-top: 10px;">Please check your API key and internet connection.</p>
+                <p style="margin-top: 10px;">Please check your internet connection.</p>
             </div>
         `;
     }
@@ -496,7 +508,7 @@
         }
         
         const trailerLink = document.getElementById('modalTrailer');
-        trailerLink.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' trailer')}`;
+        trailerLink.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' official trailer')}`;
         
         document.getElementById('movieModal').classList.add('active');
     }
@@ -522,11 +534,11 @@
             currentMovies = data.results || [];
             renderMovies(currentMovies);
             
-            document.getElementById('lastUpdated').innerHTML = `📅 Last updated: ${new Date().toLocaleString()}`;
+            document.getElementById('lastUpdated').innerHTML = `📅 Updated: ${new Date().toLocaleString()} | Movies: ${currentMovies.length}`;
             
         } catch (error) {
             console.error('Error:', error);
-            showError('Failed to load movies. Check your API key.');
+            showError('Failed to load movies. Check your connection.');
         }
     }
     
@@ -566,18 +578,8 @@
         }
     });
     
-    // Initialize
-    if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
-        document.getElementById('movieGrid').innerHTML = `
-            <div class="error">
-                <p>⚠️ API Key Required</p>
-                <p>Get your free key from <a href="https://www.themoviedb.org/signup" style="color:#2196F3;">themoviedb.org</a></p>
-                <p>Then replace YOUR_API_KEY_HERE in the code.</p>
-            </div>
-        `;
-    } else {
-        fetchMovies('upcoming');
-    }
+    // Initialize - Load upcoming movies
+    fetchMovies('upcoming');
 </script>
 
 </body>
