@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MoviePulse | Upcoming Movies & Announcements</title>
+    <meta name="description" content="Stay updated with the latest upcoming movies, release dates, ratings, and announcements. MoviePulse - your daily movie pulse.">
+    <meta name="theme-color" content="#121212">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #2196F3;
+            border-radius: 4px;
+        }
+        
+        /* Donation Section */
+        .donation-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .donation-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #FFD700;
+        }
+        
+        .donation-card h3 {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        .donation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .donate-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .donate-btn.momo {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+        }
+        
+        .donate-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 3px solid #2196F3;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #2196F3, #00BCD4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .header p {
+            color: #888;
+            margin-top: 10px;
+        }
+        
+        .last-updated {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        /* Search */
+        .search-section {
+            max-width: 600px;
+            margin: 25px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+        
+        .search-btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 30px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+        
+        /* Movie Grid */
+        .movie-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .movie-card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.2);
+        }
+        
+        .movie-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            background: #2a2a2a;
+        }
+        
+        .movie-poster-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+        
+        .movie-info {
+            padding: 16px;
+        }
+        
+        .movie-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .movie-date {
+            font-size: 0.8rem;
+            color: #FF9800;
+            margin-bottom: 6px;
+        }
+        
+        .movie-rating {
+            color: #FFD700;
+            font-size: 0.85rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            max-width: 700px;
+            width: 90%;
+            background: #1a1a1a;
+            border-radius: 20px;
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .modal-info {
+            padding: 25px;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+        
+        .modal-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            color: #aaa;
+            flex-wrap: wrap;
+        }
+        
+        .trailer-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #f44336;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #888;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #1a1a1a;
+            border-top-color: #2196F3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error {
+            text-align: center;
+            padding: 60px;
+            color: #f44336;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 12px;
+            border-top: 1px solid #2a2a2a;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .movie-poster, .movie-poster-placeholder { height: 280px; }
+            .movie-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- DONATION SECTION (Voluntary Support Only) -->
+<div class="donation-section">
+    <div class="donation-card">
+        <h3>☕ Support MoviePulse</h3>
+        <p>If you enjoy using MoviePulse, consider supporting the development. Your contribution is voluntary and helps keep this site running.</p>
+        <div class="donation-buttons">
+            <button class="donate-btn" onclick="alert('Thank you for your support! Please send via MTN MoMo to: 0535747558 (Samuel Ofosu)')">☕ Buy Coffee ($5)</button>
+            <button class="donate-btn" onclick="alert('Thank you for your support! Please send via MTN MoMo to: 0535747558 (Samuel Ofosu)')">🍿 Movie Snack ($10)</button>
+            <button class="donate-btn momo" onclick="alert('MTN MoMo Number: 0535747558 (Samuel Ofosu) - Thank you for your support!')">📱 MTN MoMo</button>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <h1>🎬 MoviePulse</h1>
+    <p>Your daily pulse on upcoming movies</p>
+    <div class="last-updated" id="lastUpdated">Fetching latest movies...</div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-section">
+    <input type="text" class="search-input" id="searchInput" placeholder="Search for a movie...">
+    <button class="search-btn" id="searchBtn">🔍 Search</button>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories" id="categories">
+    <button class="category-btn active" data-category="upcoming">🎬 Upcoming</button>
+    <button class="category-btn" data-category="popular">🔥 Popular</button>
+    <button class="category-btn" data-category="now_playing">📺 Now Playing</button>
+    <button class="category-btn" data-category="top_rated">⭐ Top Rated</button>
+</div>
+
+<!-- MOVIE GRID -->
+<div id="movieGrid" class="movie-grid">
+    <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading movies from TMDB...</p>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>MoviePulse - Upcoming movie announcements. Data provided by TMDb.</p>
+    <p>© 2026 MoviePulse. All rights reserved.</p>
+    <p style="font-size: 11px; margin-top: 10px;">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+</div>
+
+<!-- MODAL -->
+<div id="movieModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="modalCloseBtn">×</button>
+        <img id="modalPoster" class="modal-poster" src="" alt="Movie poster">
+        <div class="modal-info">
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <div class="modal-meta">
+                <span>📅 <strong id="modalDate"></strong></span>
+                <span>⭐ <strong id="modalRating"></strong> / 10</span>
+            </div>
+            <p id="modalOverview"></p>
+            <a href="#" id="modalTrailer" class="trailer-link" target="_blank">🎬 Search Trailer on YouTube</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== TMDB API CONFIGURATION ==========
+    // Get your FREE personal API key from: https://www.themoviedb.org/signup
+    // Then go to Settings → API → Create → Choose "Developer"
+    const TMDB_API_KEY = 'YOUR_API_KEY_HERE';  // <--- REPLACE WITH YOUR REAL API KEY
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
+    
+    let currentCategory = 'upcoming';
+    let currentMovies = [];
+    let searchQuery = '';
+    
+    function showLoading() {
+        document.getElementById('movieGrid').innerHTML = `
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading movies...</p>
+            </div>
+        `;
+    }
+    
+    function showError(message) {
+        document.getElementById('movieGrid').innerHTML = `
+            <div class="error">
+                <p>❌ ${message}</p>
+                <p style="margin-top: 10px;">Please check your API key and internet connection.</p>
+            </div>
+        `;
+    }
+    
+    function formatDate(dateString) {
+        if (!dateString) return 'TBA';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    function renderMovies(movies) {
+        if (!movies || movies.length === 0) {
+            document.getElementById('movieGrid').innerHTML = '<div class="error">No movies found.</div>';
+            return;
+        }
+        
+        document.getElementById('movieGrid').innerHTML = movies.map(movie => `
+            <div class="movie-card" data-movie-id="${movie.id}">
+                ${movie.poster_path 
+                    ? `<img class="movie-poster" src="${TMDB_IMAGE_URL}${movie.poster_path}" alt="${movie.title}">`
+                    : `<div class="movie-poster-placeholder">🎬</div>`
+                }
+                <div class="movie-info">
+                    <div class="movie-title">${movie.title || 'Untitled'}</div>
+                    <div class="movie-date">📅 ${formatDate(movie.release_date)}</div>
+                    <div class="movie-rating">⭐ ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}/10</div>
+                </div>
+            </div>
+        `).join('');
+        
+        document.querySelectorAll('.movie-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = parseInt(card.dataset.movieId);
+                const movie = currentMovies.find(m => m.id === id);
+                if (movie) showMovieDetails(movie);
+            });
+        });
+    }
+    
+    function showMovieDetails(movie) {
+        document.getElementById('modalTitle').innerText = movie.title;
+        document.getElementById('modalDate').innerText = formatDate(movie.release_date);
+        document.getElementById('modalRating').innerText = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+        document.getElementById('modalOverview').innerText = movie.overview || 'No description available.';
+        
+        const poster = document.getElementById('modalPoster');
+        if (movie.poster_path) {
+            poster.src = `${TMDB_IMAGE_URL}${movie.poster_path}`;
+            poster.alt = movie.title;
+        } else {
+            poster.src = '';
+            poster.alt = 'No poster available';
+        }
+        
+        const trailerLink = document.getElementById('modalTrailer');
+        trailerLink.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' trailer')}`;
+        
+        document.getElementById('movieModal').classList.add('active');
+    }
+    
+    async function fetchMovies(category, query = '') {
+        showLoading();
+        
+        try {
+            let url;
+            if (query) {
+                url = `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=en-US&page=1`;
+            } else {
+                url = `${TMDB_BASE_URL}/movie/${category}?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
+            }
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            currentMovies = data.results || [];
+            renderMovies(currentMovies);
+            
+            document.getElementById('lastUpdated').innerHTML = `📅 Last updated: ${new Date().toLocaleString()}`;
+            
+        } catch (error) {
+            console.error('Error:', error);
+            showError('Failed to load movies. Check your API key.');
+        }
+    }
+    
+    // Event Listeners
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = btn.dataset.category;
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            fetchMovies(currentCategory);
+        });
+    });
+    
+    document.getElementById('searchBtn').addEventListener('click', () => {
+        const query = document.getElementById('searchInput').value.trim();
+        if (query) {
+            searchQuery = query;
+            fetchMovies('', query);
+        } else {
+            fetchMovies(currentCategory);
+        }
+    });
+    
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('searchBtn').click();
+    });
+    
+    document.getElementById('modalCloseBtn').addEventListener('click', () => {
+        document.getElementById('movieModal').classList.remove('active');
+    });
+    
+    document.getElementById('movieModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('movieModal')) {
+            document.getElementById('movieModal').classList.remove('active');
+        }
+    });
+    
+    // Initialize
+    if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
+        document.getElementById('movieGrid').innerHTML = `
+            <div class="error">
+                <p>⚠️ API Key Required</p>
+                <p>Get your free key from <a href="https://www.themoviedb.org/signup" style="color:#2196F3;">themoviedb.org</a></p>
+                <p>Then replace YOUR_API_KEY_HERE in the code.</p>
+            </div>
+        `;
+    } else {
+        fetchMovies('upcoming');
+    }
+</script>
+
+</body>
+</html>
