@@ -56,7 +56,7 @@
             margin-top: 10px;
         }
         
-        /* Description Section - Simple text box */
+        /* Description Section */
         .description-section {
             max-width: 900px;
             margin: 30px auto;
@@ -100,10 +100,6 @@
             gap: 8px;
             color: #aaa;
             font-size: 14px;
-        }
-        
-        .description-box .feature-item span {
-            font-size: 18px;
         }
         
         /* Search */
@@ -182,7 +178,6 @@
             overflow: hidden;
             transition: all 0.3s;
             cursor: pointer;
-            position: relative;
         }
         
         .movie-card:hover {
@@ -274,7 +269,6 @@
             border-radius: 50%;
             font-size: 20px;
             cursor: pointer;
-            z-index: 10;
         }
         
         .modal-close:hover {
@@ -314,14 +308,12 @@
             text-decoration: none;
             font-weight: bold;
             margin: 15px 0;
-            transition: 0.3s;
             border: none;
             cursor: pointer;
         }
         
         .watch-trailer-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
         }
         
         .cast-section {
@@ -374,14 +366,13 @@
             font-size: 22px;
             cursor: pointer;
             color: #555;
-            transition: 0.2s;
         }
         
         .star.active {
             color: #FFD700;
         }
         
-        /* Global Comments Section - Bottom of Page */
+        /* Comments Section */
         .global-comments-section {
             max-width: 1000px;
             margin: 50px auto;
@@ -419,7 +410,6 @@
             font-size: 13px;
         }
         
-        /* Footer */
         .footer {
             text-align: center;
             padding: 30px;
@@ -453,9 +443,6 @@
             .header h1 { font-size: 2rem; }
             .movie-poster, .movie-poster-placeholder { height: 320px; }
             .movie-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
-            .description-box { padding: 20px; }
-            .description-box .features { gap: 12px; }
-            .description-box .feature-item { font-size: 11px; }
         }
     </style>
 </head>
@@ -467,19 +454,18 @@
     <p>Your daily pulse on upcoming movies | Join the global community</p>
 </div>
 
-<!-- DESCRIPTION SECTION - Simple Text Box -->
+<!-- DESCRIPTION SECTION -->
 <div class="description-section">
     <div class="description-box">
         <h2>📌 Welcome to MoviePulse</h2>
         <p>MoviePulse is your ultimate destination for discovering upcoming movies, watching trailers, and connecting with movie lovers from around the world. Get the latest information on release dates, cast details, ratings, and more — all in one place.</p>
-        <p>Whether you're a casual viewer or a dedicated cinephile, MoviePulse keeps you updated with real-time movie data from TMDB. Browse, search, rate, and discuss your favorite films with our global community.</p>
         <div class="features">
-            <span class="feature-item">🎬 <span>Upcoming Movies</span></span>
-            <span class="feature-item">📺 <span>Watch Trailers</span></span>
-            <span class="feature-item">🎭 <span>Cast Information</span></span>
-            <span class="feature-item">⭐ <span>Rate Movies</span></span>
-            <span class="feature-item">💬 <span>Global Discussion</span></span>
-            <span class="feature-item">📅 <span>Release Dates</span></span>
+            <span class="feature-item">🎬 Upcoming Movies</span>
+            <span class="feature-item">📺 Watch Trailers</span>
+            <span class="feature-item">🎭 Cast Information</span>
+            <span class="feature-item">⭐ Rate Movies</span>
+            <span class="feature-item">💬 Global Discussion</span>
+            <span class="feature-item">📅 Release Dates</span>
         </div>
     </div>
 </div>
@@ -506,17 +492,25 @@
     </div>
 </div>
 
-<!-- GLOBAL COMMENTS SECTION - Bottom of Page -->
+<!-- UTTERANCES COMMENTS SECTION -->
 <div class="global-comments-section">
     <div class="comments-container">
         <h2 class="comments-title">💬 Global Movie Community</h2>
         <div class="comments-subtitle">Join movie fans from around the world</div>
         <div class="comment-info">
             🌍 Share your thoughts, predictions, and reviews about upcoming movies.<br>
-            Everyone can see your comments. Be respectful and enjoy the discussion!
+            💡 <strong>Note:</strong> You'll need a <a href="https://github.com/signup" target="_blank" style="color:#2196F3;">GitHub account</a> to comment (it's free and takes 30 seconds).
         </div>
-        <!-- EasyComment Comments Container -->
-        <div id="gdb-comments" data-page-identifier="moviepulse-global"></div>
+        
+        <!-- Utterances Comments Widget -->
+        <script src="https://utteranc.es/client.js"
+            repo="Samcode-dev1/moviepulse"
+            issue-term="pathname"
+            label="comment"
+            theme="github-dark"
+            crossorigin="anonymous"
+            async>
+        </script>
     </div>
 </div>
 
@@ -784,18 +778,6 @@
     });
     
     fetchMovies('upcoming');
-</script>
-
-<!-- EasyComment System - Global Comments -->
-<script src="https://auth.goygoyengine.com/api/easycomment/v1/embed.js"></script>
-<script>
-    // Initialize EasyComment System
-    if (typeof GDBComments !== 'undefined') {
-        GDBComments.init({
-            container: '#gdb-comments',
-            theme: 'dark'
-        });
-    }
 </script>
 
 </body>
