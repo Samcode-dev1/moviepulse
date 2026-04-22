@@ -57,10 +57,12 @@
 
         .header p { color: var(--text-secondary); margin-top: 10px; }
 
-        /* Live Counter */
+        /* Live Counter - Fixed Version */
         .live-counter-wrapper {
             max-width: 300px;
             margin: -20px auto 20px auto;
+            position: relative;
+            z-index: 10;
         }
 
         .counter-card {
@@ -72,6 +74,7 @@
             justify-content: center;
             gap: 12px;
             border: 1px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.2);
         }
 
         .counter-icon {
@@ -291,9 +294,6 @@
             .movie-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         }
     </style>
-    
-    <!-- Supercounters Live Visitor Widget -->
-    <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
 </head>
 <body>
 
@@ -303,13 +303,17 @@
     <p>Your daily pulse on upcoming movies | Live community</p>
 </div>
 
-<!-- LIVE COUNTER -->
+<!-- LIVE COUNTER - FIXED VERSION (Place at the very top for best results) -->
 <div class="live-counter-wrapper">
     <div class="counter-card">
         <div class="counter-icon"></div>
         <div class="counter-label">Live Visitors:</div>
         <div class="supercounters-container">
-            <script type="text/javascript">sc_online_i(1733372,"ffffff","e61c1c");</script>
+            <script type="text/javascript" src="https://widget.supercounters.com/ssl/online_i.js"></script>
+            <script type="text/javascript">
+                // Initialize the counter with your specific ID
+                sc_online_i(1733372, "ffffff", "e61c1c");
+            </script>
         </div>
     </div>
 </div>
@@ -405,9 +409,8 @@
         return `⏰ ${diff} days to go`;
     }
 
-    // ========== OPEN MOVIE DETAILS IN NEW BROWSER TAB (ANDROID FRIENDLY) ==========
+    // ========== OPEN MOVIE DETAILS IN NEW BROWSER TAB ==========
     function openMovieInNewTab(movie) {
-        // Create the detail page HTML as a data URL or blob
         const detailHtml = `
 <!DOCTYPE html>
 <html>
@@ -592,14 +595,9 @@
 </html>
         `;
 
-        // Convert the HTML string to a Blob and create a URL
         const blob = new Blob([detailHtml], { type: 'text/html' });
         const blobUrl = URL.createObjectURL(blob);
-        
-        // Open in new tab
         window.open(blobUrl, '_blank');
-        
-        // Clean up the blob URL after a delay
         setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
     }
 
@@ -686,4 +684,4 @@
 </script>
 
 </body>
-                </html>
+    </html>
